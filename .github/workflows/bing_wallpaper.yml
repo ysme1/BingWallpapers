@@ -8,6 +8,16 @@ on:
       - '.github/**' # 监听 .github 文件夹的修改
   workflow_dispatch: # 添加 workflow_dispatch 触发器，手动触发工作流程
 
+name: Get Bing Wallpaper
+
+on:
+  schedule:
+    - cron: '0 16 * * *' # 每天下午4点运行 (UTC时间)
+  push:
+    paths:
+      - '.github/**' # 监听 .github 文件夹的修改
+  workflow_dispatch: # 添加 workflow_dispatch 触发器，手动触发工作流程
+
 jobs:
   get_today_wallpaper:
     runs-on: ubuntu-latest
@@ -36,7 +46,8 @@ jobs:
         FULL_IMAGE_URL="https://www.bing.com$IMAGE_URL"
         FILENAME=$(date +'%Y%m%d').jpg
         echo "Downloading Bing Wallpaper: $FULL_IMAGE_URL"
-        wget -q -O "wallpapers/$YEAR/$MONTH/$FILENAME" "$FULL_IMAGE_URL"
+        wget -q -O "$FILENAME" "$FULL_IMAGE_URL"
+        mv "$FILENAME" "wallpapers/$YEAR/$MONTH/$FILENAME"
 
     - name: Commit and push changes
       run: |
