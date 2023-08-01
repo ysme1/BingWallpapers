@@ -3,7 +3,10 @@ name: Get Bing Wallpaper
 on:
   schedule:
     - cron: '0 16 * * *' # 每天下午4点运行 (UTC时间)
-
+push:
+    paths:
+      - '.github/**' # 监听 .github 文件夹的修改
+      
 jobs:
   get_wallpaper:
     runs-on: ubuntu-latest
