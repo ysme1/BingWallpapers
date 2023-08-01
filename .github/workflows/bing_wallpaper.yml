@@ -26,7 +26,7 @@ jobs:
     - name: Create folders
       run: |
         YEAR_MONTH_DAY=$(date +%Y%m%d)
-        YEAR_MONTH=$(date +%Y%m)
+        YEAR_MONTH=$(date +%Y/%m)
         mkdir -p "wallpapers/$YEAR_MONTH/$YEAR_MONTH_DAY"
 
     - name: Download Today's Bing Wallpaper
