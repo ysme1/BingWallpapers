@@ -28,6 +28,8 @@ jobs:
         mkdir -p "wallpapers/$YEAR_MONTH"
 
     - name: Download Bing Wallpaper
+      env:
+        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }} # 确认访问令牌的引用
       run: |
         IMAGE_URL=$(curl -sL "https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=en-US" | jq -r '.images[0].url')
         wget -q "https://www.bing.com/$IMAGE_URL" -P "wallpapers/$YEAR_MONTH"
