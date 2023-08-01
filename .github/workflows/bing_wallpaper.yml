@@ -1,3 +1,13 @@
+name: Get Bing Wallpaper
+
+on:
+  schedule:
+    - cron: '0 16 * * *' # 每天下午4点运行 (UTC时间)
+  push:
+    paths:
+      - '.github/**' # 监听 .github 文件夹的修改
+  workflow_dispatch: # 添加 workflow_dispatch 触发器，手动触发工作流程
+
 jobs:
   get_4k_wallpaper:
     runs-on: ubuntu-latest
