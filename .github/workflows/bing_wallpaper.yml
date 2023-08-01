@@ -15,15 +15,15 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
-
+      with:
+        ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
+    
     - name: Install jq
       run: |
         sudo apt-get update
         sudo apt-get install -y jq
 
     - name: Create folders
-      env:
-        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }} # 确认访问令牌的引用
       run: |
         mkdir -p wallpapers
         YEAR_MONTH=$(date +%Y/%m)
