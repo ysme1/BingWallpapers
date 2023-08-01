@@ -11,4 +11,4 @@
 3. "YourGitHubUsername" 替换为您的 GitHub 用户名
 
 # 问题
-下载下来的图片，无法按照年月分类，只能堆积在 wallpapers 文件夹下。
+下载下来的图片，无法按照年月分类转移，只能堆积在 wallpapers 文件夹下。创建年月分类文件夹失效。
