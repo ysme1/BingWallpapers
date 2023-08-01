@@ -16,7 +16,7 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
       with:
-        ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
+        ssh-key: ${{ secrets.SSH_PRIVATE_KEY }} # 提前创建环境变量ssh-key，并部署
 
     - name: Install jq
       run: |
@@ -26,7 +26,8 @@ jobs:
     - name: Create folders
       run: |
         YEAR_MONTH_DAY=$(date +%Y/%m/%d)
-        mkdir -p "wallpapers/$YEAR_MONTH_DAY"
+        YEAR_MONTH=$(date +%Y/%m)
+        mkdir -p "wallpapers/$YEAR_MONTH/$YEAR_MONTH_DAY"
 
     - name: Download Today's Bing Wallpaper
       run: |
@@ -34,7 +35,7 @@ jobs:
         FULL_IMAGE_URL="https://www.bing.com$IMAGE_URL"
         FILENAME=$(date +'%Y%m%d').jpg
         echo "Downloading Bing Wallpaper: $FULL_IMAGE_URL"
-        wget -q -O "wallpapers/$YEAR_MONTH_DAY/$FILENAME" "$FULL_IMAGE_URL"
+        wget -q -O "wallpapers/$YEAR_MONTH/$YEAR_MONTH_DAY/$FILENAME" "$FULL_IMAGE_URL"
 
     - name: Commit and push changes
       run: |
@@ -43,4 +44,3 @@ jobs:
         git add wallpapers/*
         git commit -m "Add Bing wallpaper for $(date +'%Y/%m/%d')"
         git push origin main # 假设主分支为 main，请根据实际情况替换为您的主分支名称
-
