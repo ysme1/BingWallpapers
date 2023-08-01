@@ -9,7 +9,7 @@ on:
   workflow_dispatch: # 添加 workflow_dispatch 触发器，手动触发工作流程
 
 jobs:
-  get_4k_wallpaper:
+  get_highest_resolution_wallpaper:
     runs-on: ubuntu-latest
 
     steps:
@@ -29,13 +29,13 @@ jobs:
         YEAR_MONTH=$(date +%Y/%m)
         mkdir -p "wallpapers/$YEAR_MONTH"
 
-    - name: Get 4K Bing Wallpaper URL
+    - name: Get Highest Resolution Bing Wallpaper URL
       run: |
-        IMAGE_URL=$(curl -sL "https://www.bing.com/HPImageArchive.aspx?format=js&n=1&mkt=en-US" | jq -r '.images[] | select(.wp == "YES") | .url')
+        IMAGE_URL=$(curl -sL "https://www.bing.com/HPImageArchive.aspx?format=js&uhd=1&idx=0&n=1&mkt=en-US" | jq -r '.images[0].url')
         FULL_IMAGE_URL="https://www.bing.com$IMAGE_URL"
-        echo "Downloading 4K Wallpaper: $FULL_IMAGE_URL"
+        echo "Downloading Highest Resolution Wallpaper: $FULL_IMAGE_URL"
 
-    - name: Download 4K Bing Wallpaper
+    - name: Download Highest Resolution Bing Wallpaper
       run: |
         wget -q "$FULL_IMAGE_URL" -P "wallpapers/$YEAR_MONTH"
 
@@ -44,5 +44,5 @@ jobs:
         git config --local user.email "markwalsh6809@gmail.com" # 替换为您的 GitHub 邮箱地址
         git config --local user.name "RashidaKAKU" # 替换为您的 GitHub 用户名
         git add wallpapers/*
-        git commit -m "Add 4K Bing wallpaper for $(date +'%Y/%m/%d')"
+        git commit -m "Add Highest Resolution Bing wallpaper for $(date +'%Y/%m/%d')"
         git push origin main # 假设主分支为 main，请根据实际情况替换为您的主分支名称
