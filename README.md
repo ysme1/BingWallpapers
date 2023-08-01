@@ -1,5 +1,5 @@
 # 每日爬取 bing 壁纸
-每日爬取 bing 壁纸，存储到 wallpapers 文件夹。
+利用 Github 自动流，每日爬取 bing 壁纸，存储到 wallpapers 文件夹。
 ## 运行方式
 1. 每天下午 4 点运行 (UTC时间)
 2. 监听 .github 文件夹的修改
