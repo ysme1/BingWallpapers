@@ -25,27 +25,23 @@ jobs:
 
     - name: Create folders
       run: |
-        YEAR_MONTH_DAY=$(date +%Y%m%d)
-        YEAR_MONTH=$(date +%Y/%m)
-        mkdir -p "wallpapers/$YEAR_MONTH/$YEAR_MONTH_DAY"
+        YEAR_MONTH_DAY=$(date +%Y/%m/%d)
+        YEAR=$(date +%Y)
+        MONTH=$(date +%m)
+        mkdir -p "wallpapers/$YEAR/$MONTH"
 
     - name: Download Today's Bing Wallpaper
       run: |
         IMAGE_URL=$(curl -sL "https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=en-US" | jq -r '.images[0].url')
         FULL_IMAGE_URL="https://www.bing.com$IMAGE_URL"
-        FILENAME="$YEAR_MONTH_DAY.jpg"
+        FILENAME=$(date +'%Y%m%d').jpg
         echo "Downloading Bing Wallpaper: $FULL_IMAGE_URL"
-        wget -q -O "wallpapers/$YEAR_MONTH/$YEAR_MONTH_DAY/$FILENAME" "$FULL_IMAGE_URL"
-
-    - name: Add wallpapers folder to Git
-      run: |
-        git add wallpapers
-      continue-on-error: true
+        wget -q -O "wallpapers/$YEAR/$MONTH/$FILENAME" "$FULL_IMAGE_URL"
 
     - name: Commit and push changes
       run: |
         git config --local user.email "markwalsh6809@gmail.com" # 替换为您的 GitHub 邮箱地址
         git config --local user.name "RashidaKAKU" # 替换为您的 GitHub 用户名
+        git add wallpapers/*
         git commit -m "Add Bing wallpaper for $(date +'%Y/%m/%d')"
         git push origin main # 假设主分支为 main，请根据实际情况替换为您的主分支名称
-
