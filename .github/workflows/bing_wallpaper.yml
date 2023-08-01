@@ -1,0 +1,37 @@
+name: Get Bing Wallpaper
+
+on:
+  schedule:
+    - cron: '0 16 * * *' # 每天下午4点运行 (UTC时间)
+
+jobs:
+  get_wallpaper:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Install jq
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y jq
+
+    - name: Create folders
+      run: |
+        mkdir -p wallpapers
+        YEAR_MONTH=$(date +%Y/%m)
+        mkdir -p "wallpapers/$YEAR_MONTH"
+
+    - name: Download Bing Wallpaper
+      run: |
+        IMAGE_URL=$(curl -sL "https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=en-US" | jq -r '.images[0].url')
+        wget -q "https://www.bing.com/$IMAGE_URL" -P "wallpapers/$YEAR_MONTH"
+
+    - name: Commit and push changes
+      run: |
+        git config --local user.email "markwalsh6809@gmail.com"
+        git config --local user.name "RashidaKAKU"
+        git add wallpapers/*
+        git commit -m "Add Bing wallpaper for $(date +'%Y/%m/%d')"
+        git push
