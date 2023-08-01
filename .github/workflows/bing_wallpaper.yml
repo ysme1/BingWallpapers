@@ -48,3 +48,4 @@ jobs:
         git config --local user.name "RashidaKAKU" # 替换为您的 GitHub 用户名
         git commit -m "Add Bing wallpaper for $(date +'%Y/%m/%d')"
         git push origin main # 假设主分支为 main，请根据实际情况替换为您的主分支名称
+
