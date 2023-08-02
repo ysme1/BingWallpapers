@@ -14,7 +14,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2.4.3 # 更新为支持Node.js v16的版本
+      uses: actions/checkout@v2
 
     - name: Install jq
       run: |
