@@ -10,5 +10,3 @@
 2. "your-email@example.com" # 替换为您的 GitHub 邮箱地址
 3. "YourGitHubUsername" # 替换为您的 GitHub 用户名
 4. git push origin main # 假设主分支为 main，请根据实际情况替换为您的主分支名称
-# 问题
-1. 如果壁纸已经存在，自动流无法正常退出，会报错。
