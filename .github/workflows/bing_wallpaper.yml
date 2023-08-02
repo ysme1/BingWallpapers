@@ -33,6 +33,10 @@ jobs:
     - name: Download Today's Bing Wallpaper
       run: |
         IMAGE_URL=$(curl -sL "https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=en-US" | jq -r '.images[0].url')
+        if [[ -z "$IMAGE_URL" ]]; then
+          echo "No wallpaper available for today. Exiting workflow..."
+          exit 0  # 正常退出，不再执行后续步骤
+        fi
         FULL_IMAGE_URL="https://www.bing.com$IMAGE_URL"
         FILENAME=$(date +'%Y%m%d').jpg
         echo "Downloading Bing Wallpaper: $FULL_IMAGE_URL"
