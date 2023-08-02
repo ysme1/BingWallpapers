@@ -24,8 +24,8 @@ jobs:
         sudo apt-get install -y jq
     - name: Get Date
       run: |
-        echo "YEAR=$(date +%Y)" >> $GITUHB_ENV
-        echo "MONTH=$(date +%m)" >> $GITUHB_ENV
+        echo "YEAR=$(date +%Y)" >> $GITHUB_ENV
+        echo "MONTH=$(date +%m)" >> $GITHUB_ENV
     - name: Create folders
       run: |
         mkdir -p "wallpapers/${{ env.YEAR }}/${{ env.MONTH }}"
