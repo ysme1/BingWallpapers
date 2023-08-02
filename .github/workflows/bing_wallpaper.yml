@@ -1,4 +1,4 @@
-name: 获取必应壁纸
+name: Get Bing Wallpaper
 
 on:
   schedule:
@@ -9,7 +9,7 @@ on:
   workflow_dispatch: # 添加 workflow_dispatch 触发器，手动触发工作流程
 
 jobs:
-  获取今日壁纸:
+  get_today_wallpaper: #
     runs-on: ubuntu-latest
 
     steps:
