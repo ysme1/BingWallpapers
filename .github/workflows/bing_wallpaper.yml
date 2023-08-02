@@ -9,43 +9,41 @@ on:
   workflow_dispatch: # 添加 workflow_dispatch 触发器，手动触发工作流程
 
 jobs:
-  get_today_wallpaper: #
+  get_today_wallpaper:
     runs-on: ubuntu-latest
 
     steps:
-    - name: 检出仓库
-      uses: actions/checkout@v2
-      with:
-        ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
+    - name: Checkout repository
+      uses: actions/checkout@v2.4.3 # 更新为支持Node.js v16的版本
 
-    - name: 安装 jq
+    - name: Install jq
       run: |
         sudo apt-get update
         sudo apt-get install -y jq
 
-    - name: 获取日期
+    - name: Get Date
       run: |
         echo "YEAR=$(date +%Y)" >> $GITHUB_ENV
         echo "MONTH=$(date +%m)" >> $GITHUB_ENV
 
-    - name: 创建文件夹
+    - name: Create folders
       run: |
         mkdir -p "wallpapers/${{ env.YEAR }}/${{ env.MONTH }}"
 
-    - name: 下载今日必应壁纸
+    - name: Download Today's Bing Wallpaper
       run: |
         IMAGE_URL=$(curl -sL "https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=en-US" | jq -r '.images[0].url')
         FULL_IMAGE_URL="https://www.bing.com$IMAGE_URL"
         FILENAME=$(date +'%Y%m%d').jpg
-        echo "正在下载必应壁纸: $FULL_IMAGE_URL"
+        echo "Downloading Bing Wallpaper: $FULL_IMAGE_URL"
         wget -q -O "$FILENAME" "$FULL_IMAGE_URL"
         mv "$FILENAME" "wallpapers/${{ env.YEAR }}/${{ env.MONTH }}/$FILENAME"
 
-    - name: 检查更改
+    - name: Check for changes
       id: check_changes
       run: |
         if git diff --quiet; then
-          echo "没有更改需要提交。正在退出工作流程。"
+          echo "No changes to commit. Exiting workflow."
           exit 0
         fi
 
@@ -55,5 +53,10 @@ jobs:
         git config --local user.email "markwalsh6809@gmail.com" # 替换为您的 GitHub 邮箱地址
         git config --local user.name "RashidaKAKU" # 替换为您的 GitHub 用户名
         git add wallpapers/*
-        git commit -m "添加必应壁纸 $(date +'%Y/%m/%d')"
-        git push origin main # 假设主分支为 main，请根据实际情况替换为您的主分支名称
+        if git diff --cached --quiet; then
+          echo "No changes to commit. Exiting workflow."
+          exit 0
+        else
+          git commit -m "添加必应壁纸 $(date +'%Y/%m/%d')"
+          git push origin main # 假设主分支为 main，请根据实际情况替换为您的主分支名称
+        fi
