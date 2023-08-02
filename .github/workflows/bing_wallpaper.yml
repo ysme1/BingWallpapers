@@ -22,13 +22,13 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y jq
-
+    - name: Get Date
+      run: |
+        echo "YEAR=$(date +%Y)" >> $GITHUB_ENV
+        echo "MONTH=$(date +%m)" >> $GITHUB_ENV
     - name: Create folders
       run: |
-        YEAR_MONTH_DAY=$(date +%Y/%m/%d)
-        YEAR=$(date +%Y)
-        MONTH=$(date +%m)
-        mkdir -p "wallpapers/$YEAR/$MONTH"
+        mkdir -p "wallpapers/${{ env.YEAR }}/${{ env.MONTH }}"
 
     - name: Download Today's Bing Wallpaper
       run: |
@@ -37,7 +37,7 @@ jobs:
         FILENAME=$(date +'%Y%m%d').jpg
         echo "Downloading Bing Wallpaper: $FULL_IMAGE_URL"
         wget -q -O "$FILENAME" "$FULL_IMAGE_URL"
-        mv "$FILENAME" "wallpapers/$YEAR/$MONTH/$FILENAME"
+        mv "$FILENAME" "wallpapers/${{ env.YEAR }}/${{ env.MONTH }}/$FILENAME"
 
     - name: Commit and push changes
       run: |
